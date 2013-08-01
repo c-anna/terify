@@ -1,0 +1,12 @@
+.delim_custom_text { 
+	background: gray;
+	opacity: 0.6;
+}
+
+textarea {
+	overflow: hidden;
+	border: 2px;
+	border-style: solid;
+	border-color: gray;
+	padding: 2px;
+}

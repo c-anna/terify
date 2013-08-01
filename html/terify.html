@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta charset="UTF-8" />
+	<title>Terify: A Text Schema Verifier</title>
+	<meta name="description" content="A regular-expression powered text format verifier" />
+	<meta name="keywords" content="text, verify, regular expressions, regex, schema" />
+	<link rel="shortcut icon" href="terify_favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="../css/terify.css">
+
+
+
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/terify.js"></script>
+<script type="text/javascript" src="../js/autoGrow.js"></script>
+
+<script type="text/javascript">
+function saveRuleset(rules) {
+	var jsonRules = JSON.stringify(rules);
+	
+	$.ajax({
+		type: 'POST', 
+		url: 'generateRulesetXML.php', 
+		data: {'rules': jsonRules},
+		success: function(data) {
+			console.log(data);
+			window.open('downloadRuleset.php', '_blank');
+		}
+	});
+}
+</script>
+
+<script>
+function importFile(form) {
+	var oData = new FormData(form);
+	oData.append('filename', form.userfile.name);
+	
+	$.ajax({
+		url: 'importRulesetXML.php',
+		type: 'POST',
+		data: oData,
+		processData: false,
+		contentType: false,
+		
+		//On success, fill the ruleset form with the imported rules
+		success: function(data) {fillRuleset(data);}
+	});
+}
+</script>
+
+</head>
+
+<body onload="document.forms.ruleset_form.reset()">
+	<h1>Terify: A Regex Text Verifier</h1>
+	
+	<form name="text_in_form">
+		<p>Text to Terify <br /></p>
+		<textarea id="text_in" autofocus rows=15 cols=50 onKeyUp="autoGrow(this);" placeholder="Paste your text here" 
+		wrap="off"></textarea>
+	</form>
+	
+	<form id="ruleset_form" action="generateRulesetXML.php" method="post">These are the rules:
+		<table id="ruleset_table">
+		<tr>
+			<td class="domain">Line # <input type="text" name="domain" maxlength=1 value="1" pattern="\d" style="width:22px;"></td>
+			<td class="key">Key: <input type="text" name = "key"></td>
+			<td class="delim">Delimiter:
+				<select class="delim_select" name="delim_dropdown" onChange="showCustomDelim(this,this.parentNode.parentNode.children[3].children[0]);">
+					<option title="Any nonzero number of whitespace characters" value="\s+">\s+</option>
+					<option title="Any number of whitespace characters (including zero)" value="\s*">\s*</option>
+					<option title="Any nonzero number of tab characters" value="\t+">\t+</option>
+					<option title="Any number of tab characters (including zero)" value="\t*">\t*</option>
+					<option class=custom value="Custom">Custom</option>
+				</select></td>
+			<td class="delim_custom"><input type="text" class=delim_custom_text disabled></td>
+			<td class="value">Value: <input type="text" name="value"></td>
+			<td class="ignoreCase">Case sensitive? <input type="checkbox" name="ignoreCase"></td>
+		</tr>
+		</table>
+		<button id=addNewRuleButton type="button" onClick="addNewRule(this.parentNode.childNodes[1]);">Add a new rule</button>
+		<button id=saveRulesetButton type="button" onClick="collectInputs($('#ruleset_table')[0]); saveRuleset(rules)">Save this ruleset</button>
+	</form>
+	
+	<br /><br />
+	<form id=import enctype="multipart/form-data" method="post">
+		Import ruleset: 
+		<input id=userfile name="userfile" type="file" accept="text/xml" size="40"></input>
+		<button type="button" onClick="importFile(document.forms.import)">Import </button>		
+	</form>
+	
+	<!---<button type="submit" onClick="collectInputs($('#text_in')[0],
+		$('#ruleset_table')[0]);">Get those inputs</button>--->
+	<button type="submit" onClick="collectInputs($('#text_in')[0],
+		$('#ruleset_table')[0]); terify(); showReport();">Terify it!</button>
+		
+		
+</body>
+</html>
