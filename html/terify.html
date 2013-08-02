@@ -5,12 +5,12 @@
 	<meta name="description" content="A regular-expression powered text format verifier" />
 	<meta name="keywords" content="text, verify, regular expressions, regex, schema" />
 	<link rel="shortcut icon" href="terify_favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="../css/terify.css">
+	<link rel="stylesheet" type="text/css" href="../css/terify/terify.css">
 
 
 
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/terify.js"></script>
+<script type="text/javascript" src="../js/terify/terify.js"></script>
 <script type="text/javascript" src="../js/autoGrow.js"></script>
 
 <script type="text/javascript">
@@ -19,11 +19,10 @@ function saveRuleset(rules) {
 	
 	$.ajax({
 		type: 'POST', 
-		url: 'generateRulesetXML.php', 
+		url: '../php/terify/generateRulesetXML.php', 
 		data: {'rules': jsonRules},
 		success: function(data) {
-			console.log(data);
-			window.open('downloadRuleset.php', '_blank');
+			window.open('../php/terify/downloadRuleset.php', '_blank');
 		}
 	});
 }
@@ -35,7 +34,7 @@ function importFile(form) {
 	oData.append('filename', form.userfile.name);
 	
 	$.ajax({
-		url: 'importRulesetXML.php',
+		url: '../php/terify/importRulesetXML.php',
 		type: 'POST',
 		data: oData,
 		processData: false,
@@ -61,7 +60,7 @@ function importFile(form) {
 	<form id="ruleset_form" action="generateRulesetXML.php" method="post">These are the rules:
 		<table id="ruleset_table">
 		<tr>
-			<td class="domain">Line # <input type="text" name="domain" maxlength=1 value="1" pattern="\d" style="width:22px;"></td>
+			<td class="domain">Line # <input type="text" name="domain" maxlength=1 pattern="\d" style="width:22px;"></td>
 			<td class="key">Key: <input type="text" name = "key"></td>
 			<td class="delim">Delimiter:
 				<select class="delim_select" name="delim_dropdown" onChange="showCustomDelim(this,this.parentNode.parentNode.children[3].children[0]);">
@@ -77,7 +76,7 @@ function importFile(form) {
 		</tr>
 		</table>
 		<button id=addNewRuleButton type="button" onClick="addNewRule(this.parentNode.childNodes[1]);">Add a new rule</button>
-		<button id=saveRulesetButton type="button" onClick="collectInputs($('#ruleset_table')[0]); saveRuleset(rules)">Save this ruleset</button>
+		<button id=saveRulesetButton type="button" onClick="collectInputs($('#text_in')[0], $('#ruleset_table')[0]); saveRuleset(rules)">Save this ruleset</button>
 	</form>
 	
 	<br /><br />

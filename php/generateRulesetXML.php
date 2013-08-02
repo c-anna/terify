@@ -65,7 +65,6 @@ foreach ($ruleset as $rule) {
 }
 
 //Open a new file to temporarily save the ruleset.
-$filename = "ruleset.xml";
 $fid = fopen("ruleset.xml", "w");
 
 //Save the ruleset. This ruleset can be printed to screen

@@ -39,7 +39,7 @@ function collectInputs(textarea,table) {
 	passed = function(element) {
 		return element.hasMatched;
 	}
-	
+
 	var text_raw = textarea.value.split("\n");
 	for (var i = 0; i < text_raw.length; i++) //This loop simply shifts each i-th element of text_raw to the (i+1)-th element of text
 		text[i+1] = text_raw[i] //This shifting is done to avoid confusion with line 0
@@ -55,7 +55,6 @@ function collectInputs(textarea,table) {
 		}
 
 		if (rule_pieces["key"].value == "" && rule_pieces["value"].value == "") {
-			console.log("continuing..."); 
 			continue;
 		} 
 		
@@ -71,7 +70,6 @@ function collectInputs(textarea,table) {
 		
 		
 		if (rule_pieces["delim"].value == "Custom") {
-			console.log("Inside custom delim block");
 			rule_pieces["delim"] = inputs[i].getElementsByClassName('delim_custom_text')[0];
 		}
 
@@ -152,20 +150,16 @@ function terify() {
 	//all rules to be satisfied.
 	if (failures.length == 0 && rules.every(passed)) {
 		//If we have no failures, then the text is verified and everything is happy
-		console.log("Congratulations! The text had no errors!");
-		$("#text_in").css("border-color", "#47d147");
+		$("#text_in").css("border-color", "#47d147"); //Green border
 	} else if (failures.length == 0 && !rules.every(passed)) {
 		//If not every rule has passed, but the length of the 'failures' array is 0,
 		//it means some rules weren't tried for matching. For example, a rule is set for
 		//line 10 but only 9 lines of input exist.
-		console.log("Not all rules have been tried for matching");
-		$("#text_in").css("border-color", "#ff1919");
+		$("#text_in").css("border-color", "#ff1919"); //Red border
 	} else {
 		//If we get to this block, it means all rules were tried for matching but did
 		//not match any lines. That means there must be errors in the text.
-		console.log("There were errors in the text");
-		console.log(failures.toString());
-		$("#text_in").css("border-color", "#ff1919");
+		$("#text_in").css("border-color", "#ff1919"); //Red border
 	}
 	
 }
