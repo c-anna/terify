@@ -8,6 +8,7 @@
 var rules;
 var text;
 var failures;
+var verboseText;
 //ATTN FUTURE SELF
 //HERE IS WHERE THE LIST OF PRELOADED DELIMITERS IS DEFINED			
 var preloaded_delims = ['\\s+', '\\s*', '\\t+', '\\t*'];
@@ -88,6 +89,7 @@ function collectInputs(textarea,table) {
 	
 function terify() {
 	failures = new Array();
+	verboseText = new Array();
 	
 	for (var i = 1; i < text.length; i++) { //Remember, the array 'text' begins with 1, not 0.
 											//We shifted the values to avoid line 0 confusion.
@@ -111,9 +113,11 @@ function terify() {
 			
 				keyTest = keyExp.test(text[i]);
 				if (keyTest) {
-					console.log("Line " + i + " matches the key and will be a candidate for matching the value.");
+					verboseText.push("Line " + i + " matches the key and will be a candidate for matching the value.");
+					//console.log("Line " + i + " matches the key and will be a candidate for matching the value.");
 				} else {
-					console.log("Line " + i + " does not match the key and will not be considered for matching the value.");
+					verboseText.push("Line " + i + " does not match the key and will not be considered for matching the value.");
+					//console.log("Line " + i + " does not match the key and will not be considered for matching the value.");
 				}
 				
 			}
@@ -134,11 +138,13 @@ function terify() {
 				
 				var bigTest = bigExp.test(text[i]);
 				if (bigTest) {
-					console.log("Line " + i + " matches the rule.");
+					verboseText.push("Line " + i + " matches the rule.");
+					//console.log("Line " + i + " matches the rule.");
 					rules[j]["hasMatched"] = true;
 					rules[j]["lineOfInterest"] = i;
 				} else {
-					console.log("Line " + i + " does not match the rule.");
+					verboseText.push("Line " + i + " does not match the rule.");
+					//console.log("Line " + i + " does not match the rule.");
 					failures.push(new Failure(j,i));
 				}					
 			}
@@ -212,13 +218,9 @@ function showCustomDelim(select, custom_field) {
 	}
 }
 
-function showReport() {	
+function showReport(verbose) {	
 	//This function creates and shows a report for the Terification of the text in the
 	//textbox. It uses the 'global' variable failures.
-	
-	//We may be writing a lot of line breaks, so to save time and energy we'll 
-	//just create a <br> element up here.
-	var br = document.createElement("br");
 	
 	//We want to have one report area no matter how many times the 'Terify!' button
 	//has been pressed. To do this, we'll need to empty the report area if it exists,
@@ -243,6 +245,23 @@ function showReport() {
 	reportArea.appendChild(document.createElement("h2"));
 	reportArea.lastChild.appendChild(document.createTextNode("Error Report"));
 	
+	//If the user clicked the "Verbose Output" button, show them all of the
+	//verbose text
+	if (verbose) {
+		reportArea.appendChild(document.createElement("h3"));
+		reportArea.lastChild.appendChild(document.createTextNode("Verbose Output"));
+		
+		for (var i=0; i < verboseText.length; i++) {
+			var verboseSnippet = (document.createElement("p")).appendChild(document.createTextNode(verboseText[i]));
+			reportArea.appendChild(verboseSnippet);
+			reportArea.appendChild(document.createElement("br"));
+		}
+		
+		reportArea.appendChild(document.createElement("hr"));
+		reportArea.appendChild(document.createElement("h3"));
+		reportArea.lastChild.appendChild(document.createTextNode("Summary"));
+	}
+	
 	//If there are no failures, write a success message in the report area
 	if (failures.length == 0 && rules.every(passed)) {
 		var congrats = (document.createElement("p")).appendChild(document.createTextNode("Congratulations! Your text has no errors!"));
@@ -251,13 +270,14 @@ function showReport() {
 	} else if (failures.length == 0 && !rules.every(passed)) {
 		var unmatched = (document.createElement("p")).appendChild(document.createTextNode("Not all rules were tried for matching. The following rules were untested:"));
 		reportArea.appendChild(unmatched);
-		reportArea.appendChild(br);
+		reportArea.appendChild(document.createElement("br"));
 		
 		for (var i=0; i < rules.length; i++) {
 			if (rules[i].hasMatched == false) {
-				reportArea.appendChild(br);
-				var lonelyRule = (document.createElement("p")).appendChild(document.createTextNode("Rule " + ++i));
+				var ruleNum = i + 1;
+				var lonelyRule = (document.createElement("p")).appendChild(document.createTextNode("Rule " + ruleNum));
 				reportArea.appendChild(lonelyRule);
+				reportArea.appendChild(document.createElement("br"));
 			}
 		}
 	} else {	

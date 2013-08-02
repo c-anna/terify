@@ -89,7 +89,10 @@ function importFile(form) {
 	<!---<button type="submit" onClick="collectInputs($('#text_in')[0],
 		$('#ruleset_table')[0]);">Get those inputs</button>--->
 	<button type="submit" onClick="collectInputs($('#text_in')[0],
-		$('#ruleset_table')[0]); terify(); showReport();">Terify it!</button>
+		$('#ruleset_table')[0]); terify(); showReport(false);">Terify it!</button>
+		
+	<button type="submit" onClick="collectInputs($('#text_in')[0],
+		$('#ruleset_table')[0]); terify(); showReport(true);">Terify with verbose output</button>
 		
 		
 </body>
