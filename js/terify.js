@@ -249,7 +249,6 @@ function showReport() {
 		reportArea.appendChild(congrats);
 	
 	} else if (failures.length == 0 && !rules.every(passed)) {
-		console.log("hello from elseif");
 		var unmatched = (document.createElement("p")).appendChild(document.createTextNode("Not all rules were tried for matching. The following rules were untested:"));
 		reportArea.appendChild(unmatched);
 		reportArea.appendChild(br);
