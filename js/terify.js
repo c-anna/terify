@@ -94,7 +94,7 @@ function terify() {
 	for (var i = 1; i < text.length; i++) { //Remember, the array 'text' begins with 1, not 0.
 											//We shifted the values to avoid line 0 confusion.
 		for (var j = 0; j < rules.length; j++) {
-			
+			var ruleNum = j + 1
 		//Before we get into testing whether the current line matches the rule,
 		//we need to see if we should even consider this line for matching. The domain
 		//However, we obviously shouldn't attempt to match the line if the key isn't even
@@ -113,10 +113,10 @@ function terify() {
 			
 				keyTest = keyExp.test(text[i]);
 				if (keyTest) {
-					verboseText.push("Line " + i + " matches the key and will be a candidate for matching the value.");
+					verboseText.push("Rule #" + ruleNum + ": Line " + i + " matches the key and will be a candidate for matching the value.");
 					//console.log("Line " + i + " matches the key and will be a candidate for matching the value.");
 				} else {
-					verboseText.push("Line " + i + " does not match the key and will not be considered for matching the value.");
+					verboseText.push("Rule #" + ruleNum + ": Line " + i + " does not match the key and will not be considered for matching the value.");
 					//console.log("Line " + i + " does not match the key and will not be considered for matching the value.");
 				}
 				
@@ -138,12 +138,12 @@ function terify() {
 				
 				var bigTest = bigExp.test(text[i]);
 				if (bigTest) {
-					verboseText.push("Line " + i + " matches the rule.");
+					verboseText.push("Rule #" + ruleNum + ": Line " + i + " matches the rule.");
 					//console.log("Line " + i + " matches the rule.");
 					rules[j]["hasMatched"] = true;
 					rules[j]["lineOfInterest"] = i;
 				} else {
-					verboseText.push("Line " + i + " does not match the rule.");
+					verboseText.push("Rule #" + ruleNum + ": Line " + i + " does not match the rule.");
 					//console.log("Line " + i + " does not match the rule.");
 					failures.push(new Failure(j,i));
 				}					
@@ -251,7 +251,7 @@ function showReport(verbose) {
 		reportArea.appendChild(document.createElement("h3"));
 		reportArea.lastChild.appendChild(document.createTextNode("Verbose Output"));
 		
-		for (var i=0; i < verboseText.length; i++) {
+		for (var i=0; i < verboseText.length; i++) {			
 			var verboseSnippet = (document.createElement("p")).appendChild(document.createTextNode(verboseText[i]));
 			reportArea.appendChild(verboseSnippet);
 			reportArea.appendChild(document.createElement("br"));
@@ -282,9 +282,10 @@ function showReport(verbose) {
 		}
 	} else {	
 		//If there ARE failures, write each one to a new <p> in the report area
-		for (var i=0; i < failures.length; i++) {
+		for (var i=0; i < failures.length; i++) {			
 			failure = (document.createElement("p")).appendChild(document.createTextNode(failures[i].toString()));
 			reportArea.appendChild(failure);
+			reportArea.appendChild(document.createElement("br"));
 		}
 	}
 
