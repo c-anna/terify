@@ -49,15 +49,29 @@ function importFile(form) {
 </head>
 
 <body onload="document.forms.ruleset_form.reset()">
-	<h1>Terify: A Regex Text Verifier</h1>
+	<div id=other_links>
+		<div class=link><a href="http://canna.no-ip.org">Home</a></div>	
+		<div class=link><a href="../../mary.html">Mary</a></div>
+		<div class=link><a href="http://en.wikipedia.org">Wikipedia</a></div>
+	</div>
+	<hr>
+
+	<h1>Terify</h1>
+	<h2>A Regex Text Verifier</h2>
+
+	<p>
+		This tool uses regular expressions to verify key-value pairs in the text area below. For
+		syntax and supported special characters, see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">
+		Mozilla MDN</a> entry on Javascript regular expressions.
+	</p>
 	
 	<form name="text_in_form">
-		<p>Text to Terify <br /></p>
 		<textarea id="text_in" autofocus rows=15 cols=50 onKeyUp="autoGrow(this);" placeholder="Paste your text here" 
 		wrap="off"></textarea>
 	</form>
 	
-	<form id="ruleset_form" action="generateRulesetXML.php" method="post">These are the rules:
+	<br /><br />
+	<form id="ruleset_form" action="generateRulesetXML.php" method="post">Rules:
 		<table id="ruleset_table">
 		<tr>
 			<td class="domain">Line # <input type="text" name="domain" maxlength=1 pattern="\d" style="width:22px;"></td>
@@ -80,14 +94,12 @@ function importFile(form) {
 	</form>
 	
 	<br /><br />
-	<form id=import enctype="multipart/form-data" method="post">
+	<form id=importRuleset enctype="multipart/form-data" method="post">
 		Import ruleset: 
-		<input id=userfile name="userfile" type="file" accept="text/xml" size="40"></input>
-		<button type="button" onClick="importFile(document.forms.import)">Import </button>		
+		<input id=userfile name="userfile" type="file" accept="text/xml" />
+		<button type="button" onClick="importFile(document.forms.importRuleset)">Import </button>		
 	</form>
 	
-	<!---<button type="submit" onClick="collectInputs($('#text_in')[0],
-		$('#ruleset_table')[0]);">Get those inputs</button>--->
 	<button type="submit" onClick="collectInputs($('#text_in')[0],
 		$('#ruleset_table')[0]); terify(); showReport(false);">Terify it!</button>
 		

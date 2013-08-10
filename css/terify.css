@@ -1,3 +1,8 @@
+body {
+	font-family:"Helvetica",sans-serif;
+	background-color:rgba(128,128,128,0.4)
+}
+
 .delim_custom_text { 
 	background: gray;
 	opacity: 0.6;
@@ -9,4 +14,34 @@ textarea {
 	border-style: solid;
 	border-color: gray;
 	padding: 2px;
+}
+
+h1 {
+	text-align:center;
+}
+
+h2 {
+	text-align:center;
+}
+
+img {
+	vertical-align:middle;
+}
+
+#other_links {
+	height: 35px;
+	min-width: 500px;
+	text-align: justify;	
+}
+
+#other_links  .link {
+	width: 250px;
+	display: inline-block;
+	text-align:center;
+}
+
+#other_links:after {
+	content: '';
+	width: 100%;
+	display: inline-block;
 }
