@@ -25,7 +25,7 @@ if ((!empty($_FILES['userfile'])) && ($_FILES['userfile']['error'] == 0)) {
 	$ext = substr($filename, strrpos($filename, '.') + 1);
 
 	//Make sure the file is of the correct type (using both application/xml and text/xml because of possible
-	//differences in browser implementation
+	//differences in browser implementation).
 	if (($ext == 'xml') && ($_FILES['userfile']['type'] == 'application/xml' || $_FILES['userfile']['type'] == 'text/xml')) {
 		$rulesetXML = simplexml_load_file($_FILES[$_POST['filename']]['tmp_name']);
 
@@ -40,7 +40,11 @@ if ((!empty($_FILES['userfile'])) && ($_FILES['userfile']['error'] == 0)) {
 		}	
 
 		echo json_encode($TerifyRuleset);
-	} else { echo "Incorrect file type, please upload an XML file"; }
+	} else { 
+		header('HTTP/1.0 400 Incorrect file type, please upload an XML file'); 
+	}
 	
-} else { echo "File not found"; }
+} else { 
+	header('HTTP/1.0 400 File not found');
+}
 ?>

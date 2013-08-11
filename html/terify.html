@@ -23,7 +23,9 @@ function saveRuleset(rules) {
 		data: {'rules': jsonRules},
 		success: function(data) {
 			window.open('../php/terify/downloadRuleset.php', '_blank');
-		}
+		},
+		
+		error: function(jqXHR, textStatus, errorThrown) {alert(errorThrown);}
 	});
 }
 </script>
@@ -41,7 +43,8 @@ function importFile(form) {
 		contentType: false,
 		
 		//On success, fill the ruleset form with the imported rules
-		success: function(data) {fillRuleset(data);}
+		success: function(data) {fillRuleset(data);},
+		error: function(jqXHR, textStatus, errorThrown) {alert(errorThrown);}
 	});
 }
 </script>

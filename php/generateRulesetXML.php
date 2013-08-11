@@ -17,7 +17,10 @@
 //First, decode the ruleset. It has been passed to us as
 //a JSON string from the Terify main page
 $ruleset = json_decode($_POST['rules']);
-print_r($ruleset);
+if ($ruleset == null) {
+	header('HTTP/1.0 400 Could not decode JSON object');
+	exit
+}
 
 //Extract all the properties of a rule object. We will use
 //this later to iterate over.
