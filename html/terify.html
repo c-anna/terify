@@ -63,9 +63,10 @@ function importFile(form) {
 	<h2>A Regex Text Verifier</h2>
 
 	<p>
-		This tool uses regular expressions to verify key-value pairs in the text area below. For
+		This tool uses Javascript regular expressions to verify key-value pairs in the text area below. For
 		syntax and supported special characters, see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">
-		Mozilla MDN</a> entry on Javascript regular expressions. A brief summary is presented here:
+		Mozilla MDN</a> entry on Javascript regular expressions. If you've used regular expressions in Java, Python, Perl, or Egrep, you should have
+		no trouble using them in Javascript. A brief summary is presented here:
 		
 		<dl id=regex_specials>
 			<dt><code>.</code></dt><dd>Any character</dd>
@@ -90,7 +91,11 @@ function importFile(form) {
 		wrap="off"></textarea>
 	</form>
 	
-	<br /><br />
+	<button type="submit" onClick="collectInputs($('#text_in')[0],
+		$('#ruleset_table')[0]); terify(); showReport($('#verbose_checkbox')[0].checked);">Terify it!</button>
+	<input type="checkbox" id=verbose_checkbox><span id=checkText>Verbose output?</span></input>
+	
+	<br /><br /><br /><br />
 	<form id="ruleset_form" action="generateRulesetXML.php" method="post">Rules:
 		<table id="ruleset_table">
 		<tr>
@@ -120,11 +125,10 @@ function importFile(form) {
 		<button type="button" onClick="importFile(document.forms.importRuleset)">Import </button>		
 	</form>
 	
-	<button type="submit" onClick="collectInputs($('#text_in')[0],
-		$('#ruleset_table')[0]); terify(); showReport(false);">Terify it!</button>
-		
-	<button type="submit" onClick="collectInputs($('#text_in')[0],
-		$('#ruleset_table')[0]); terify(); showReport(true);">Terify with verbose output</button>
+	
+	
+	<!--<button type="submit" onClick="collectInputs($('#text_in')[0],
+		$('#ruleset_table')[0]); terify(); showReport(true);">Terify with verbose output</button>-->
 		
 		
 </body>

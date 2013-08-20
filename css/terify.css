@@ -1,6 +1,7 @@
 body {
 	font-family:"Helvetica",sans-serif;
-	background-color:rgba(128,128,128,0.4)
+	background-color:rgba(128,128,128,0.4);
+	min-height:200%;
 }
 
 .delim_custom_text { 
@@ -26,6 +27,14 @@ h2 {
 
 code {
 	font-size:125%;
+}
+
+#verbose_checkbox {
+	margin-bottom:1.8cm;
+}
+
+#checkText {
+	font-size:80%;
 }
 
 #regex_specials {
